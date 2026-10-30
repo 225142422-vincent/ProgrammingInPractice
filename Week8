@@ -1,0 +1,169 @@
+
+#include <stdio.h>
+
+#define SIZE 5
+
+// Function declarations
+void displayWelcome();
+float calculateVAT(float amount);
+float calculateSalary(float basic, float housing, float transport);
+float calculateBudget(float revenue, float expenses);
+void displayMenu();
+int searchEmployee(int id, int ids[], int size);
+
+int main() {
+
+    int choice;
+    float amount, vat;
+    float basic, housing, transport, salary;
+    float revenue, expenses, balance;
+    int employeeID;
+
+    int employeeIDs[SIZE] = {101, 102, 103, 104, 105};
+
+    displayWelcome();
+
+    do {
+
+        displayMenu();
+        scanf("%d", &choice);
+
+        switch(choice) {
+
+            case 1:
+                printf("\nEnter amount: ");
+                scanf("%f", &amount);
+
+                vat = calculateVAT(amount);
+
+                printf("VAT at 15%%: %.2f\n", vat);
+                break;
+
+            case 2:
+                printf("\nEnter basic salary: ");
+                scanf("%f", &basic);
+
+                printf("Enter housing allowance: ");
+                scanf("%f", &housing);
+
+                printf("Enter transport allowance: ");
+                scanf("%f", &transport);
+
+                salary = calculateSalary(basic, housing, transport);
+
+                printf("Gross Salary: %.2f\n", salary);
+                break;
+
+            case 3:
+                printf("\nEnter municipal revenue: ");
+                scanf("%f", &revenue);
+
+                printf("Enter municipal expenses: ");
+                scanf("%f", &expenses);
+
+                balance = calculateBudget(revenue, expenses);
+
+                printf("Budget balance: %.2f\n", balance);
+
+                if(balance > 0) {
+                    printf("SURPLUS\n");
+                }
+                else if(balance < 0) {
+                    printf("DEFICIT\n");
+                }
+                else {
+                    printf("BALANCED\n");
+                }
+                break;
+
+            case 4:
+                printf("\nEnter employee ID: ");
+                scanf("%d", &employeeID);
+
+                {
+                    int position = searchEmployee(
+                        employeeID, employeeIDs, SIZE
+                    );
+
+                    if(position != -1) {
+                        printf("Employee found at position %d.\n",
+                               position);
+                    }
+                    else {
+                        printf("Employee not found.\n");
+                    }
+                }
+                break;
+
+            case 5:
+                printf("\nEmployee IDs:\n");
+
+                for(int i = 0; i < SIZE; i++) {
+                    printf("%d\n", employeeIDs[i]);
+                }
+                break;
+
+            case 6:
+                printf("\nGoodbye. Thank you for using MFMS.\n");
+                break;
+
+            default:
+                printf("\nInvalid choice. Please try again.\n");
+        }
+
+    } while(choice != 6);
+
+    return 0;
+}
+
+// Task 1: Display welcome message
+void displayWelcome() {
+    printf("\n");
+    printf("========================================\n");
+    printf("Welcome to the Municipal Financial\n");
+    printf("Management System\n");
+    printf("========================================\n");
+}
+
+// Task 2: Calculate VAT at 15%
+float calculateVAT(float amount) {
+    return amount * 0.15;
+}
+
+// Task 3: Calculate gross salary
+float calculateSalary(float basic, float housing, float transport) {
+    return basic + housing + transport;
+}
+
+// Task 4: Calculate budget balance
+float calculateBudget(float revenue, float expenses) {
+    return revenue - expenses;
+}
+
+// Task 5: Display reusable menu
+void displayMenu() {
+    printf("\n========================================\n");
+    printf("     MUNICIPAL FINANCIAL MANAGEMENT\n");
+    printf("========================================\n");
+    printf("1. Calculate VAT\n");
+    printf("2. Calculate Employee Salary\n");
+    printf("3. Calculate Budget\n");
+    printf("4. Search Employee\n");
+    printf("5. Display Employee IDs\n");
+    printf("6. Exit\n");
+    printf("----------------------------------------\n");
+    printf("Enter choice: ");
+}
+
+// Task 6: Search employee by ID
+int searchEmployee(int id, int ids[], int size) {
+
+    for(int i = 0; i < size; i++) {
+
+        if(ids[i] == id) {
+            return i;
+        }
+    }
+
+    return -1;
+}
