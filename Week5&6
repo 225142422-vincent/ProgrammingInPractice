@@ -1,0 +1,239 @@
+#include <stdio.h>
+#include <string.h>
+
+#define EMPLOYEES 50
+#define DEPARTMENTS 10
+#define VEHICLES 20
+
+void employeeManagement();
+void budgetManagement();
+void vehicleManagement();
+
+int main() {
+    int choice;
+
+    do {
+        printf("\n========================================\n");
+        printf(" MUNICIPAL INFORMATION MANAGEMENT SYSTEM\n");
+        printf("========================================\n");
+        printf("1. Employee Salary Management\n");
+        printf("2. Department Budget Management\n");
+        printf("3. Vehicle Registration Management\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                employeeManagement();
+                break;
+
+            case 2:
+                budgetManagement();
+                break;
+
+            case 3:
+                vehicleManagement();
+                break;
+
+            case 4:
+                printf("Thank you for using MFMS!\n");
+                break;
+
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
+
+void employeeManagement() {
+    float salaries[EMPLOYEES];
+    float total = 0, average, highest, lowest;
+    float searchSalary, temp;
+    int found = 0;
+
+    printf("\n--- EMPLOYEE SALARY MANAGEMENT ---\n");
+
+    for (int i = 0; i < EMPLOYEES; i++) {
+        do {
+            printf("Enter salary for employee %d: ", i + 1);
+            scanf("%f", &salaries[i]);
+
+            if (salaries[i] < 0) {
+                printf("Invalid salary. Try again.\n");
+            }
+
+        } while (salaries[i] < 0);
+
+        total += salaries[i];
+
+        if (i == 0) {
+            highest = salaries[i];
+            lowest = salaries[i];
+        }
+
+        if (salaries[i] > highest) {
+            highest = salaries[i];
+        }
+
+        if (salaries[i] < lowest) {
+            lowest = salaries[i];
+        }
+    }
+
+    average = total / EMPLOYEES;
+
+    printf("\n--- EMPLOYEE SALARY REPORT ---\n");
+
+    for (int i = 0; i < EMPLOYEES; i++) {
+        printf("Employee %d: %.2f\n", i + 1, salaries[i]);
+    }
+
+    printf("\nTotal salary expenditure: %.2f\n", total);
+    printf("Average salary: %.2f\n", average);
+    printf("Highest salary: %.2f\n", highest);
+    printf("Lowest salary: %.2f\n", lowest);
+
+    printf("\nEnter salary to search: ");
+    scanf("%f", &searchSalary);
+
+    for (int i = 0; i < EMPLOYEES; i++) {
+        if (salaries[i] == searchSalary) {
+            printf("Salary found for employee %d.\n", i + 1);
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("Salary not found.\n");
+    }
+
+    for (int i = 0; i < EMPLOYEES - 1; i++) {
+        for (int j = 0; j < EMPLOYEES - i - 1; j++) {
+            if (salaries[j] > salaries[j + 1]) {
+                temp = salaries[j];
+                salaries[j] = salaries[j + 1];
+                salaries[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\n--- SALARIES IN ASCENDING ORDER ---\n");
+
+    for (int i = 0; i < EMPLOYEES; i++) {
+        printf("%.2f\n", salaries[i]);
+    }
+}
+
+void budgetManagement() {
+    float budgets[DEPARTMENTS];
+    float total = 0, average, highest, lowest, temp;
+
+    char departments[DEPARTMENTS][30] = {
+        "Finance",
+        "Human Resources",
+        "Engineering",
+        "Health",
+        "Transport",
+        "Education",
+        "Housing",
+        "Water",
+        "Electricity",
+        "Administration"
+    };
+
+    printf("\n--- DEPARTMENT BUDGET MANAGEMENT ---\n");
+
+    for (int i = 0; i < DEPARTMENTS; i++) {
+        do {
+            printf("Enter budget for %s: ", departments[i]);
+            scanf("%f", &budgets[i]);
+
+            if (budgets[i] < 0) {
+                printf("Invalid budget. Try again.\n");
+            }
+
+        } while (budgets[i] < 0);
+
+        total += budgets[i];
+
+        if (i == 0) {
+            highest = budgets[i];
+            lowest = budgets[i];
+        }
+
+        if (budgets[i] > highest) {
+            highest = budgets[i];
+        }
+
+        if (budgets[i] < lowest) {
+            lowest = budgets[i];
+        }
+    }
+
+    average = total / DEPARTMENTS;
+
+    printf("\n--- MUNICIPAL BUDGET REPORT ---\n");
+
+    for (int i = 0; i < DEPARTMENTS; i++) {
+        printf("%s: %.2f\n", departments[i], budgets[i]);
+    }
+
+    printf("\nTotal municipal budget: %.2f\n", total);
+    printf("Average department budget: %.2f\n", average);
+    printf("Highest department budget: %.2f\n", highest);
+    printf("Lowest department budget: %.2f\n", lowest);
+
+    for (int i = 0; i < DEPARTMENTS - 1; i++) {
+        for (int j = 0; j < DEPARTMENTS - i - 1; j++) {
+            if (budgets[j] > budgets[j + 1]) {
+                temp = budgets[j];
+                budgets[j] = budgets[j + 1];
+                budgets[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\n--- BUDGETS IN ASCENDING ORDER ---\n");
+
+    for (int i = 0; i < DEPARTMENTS; i++) {
+        printf("%.2f\n", budgets[i]);
+    }
+}
+
+void vehicleManagement() {
+    char registrations[VEHICLES][20];
+    char searchRegistration[20];
+    int found = 0;
+
+    printf("\n--- VEHICLE REGISTRATION MANAGEMENT ---\n");
+
+    for (int i = 0; i < VEHICLES; i++) {
+        printf("Enter registration number for vehicle %d: ", i + 1);
+        scanf("%19s", registrations[i]);
+    }
+
+    printf("\n--- REGISTERED VEHICLES ---\n");
+
+    for (int i = 0; i < VEHICLES; i++) {
+        printf("Vehicle %d: %s\n", i + 1, registrations[i]);
+    }
+
+    printf("\nEnter registration number to search: ");
+    scanf("%19s", searchRegistration);
+
+    for (int i = 0; i < VEHICLES; i++) {
+        if (strcmp(registrations[i], searchRegistration) == 0) {
+            printf("Registration found at vehicle %d.\n", i + 1);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Registration number not found.\n");
+    }
+}
